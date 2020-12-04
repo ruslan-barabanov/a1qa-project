@@ -32,7 +32,9 @@ public class TwoPageUserInYerFace extends Form {
     private final IElement timer = getElementFactory().getLabel(By.xpath("//div[@class='timer timer--white timer--center']"), "timer");
     private final IElement numberOfCard = getElementFactory().getTextBox(By.xpath("//div[@class='page-indicator']"), "number");
     private final IElement hiddenOfHelp = getElementFactory().getLabel(By.xpath("//div[@class='help-form is-hidden']"), "hidden form");
-
+    private final IButton nextButton3 = getElementFactory().getButton(By.xpath("//button[@class='button button--stroked button--white button--fluid']"), "next");
+    public IButton getNextButton3() {
+        return nextButton3;}
     public List<WebElement> getCookieClass() { return cookieClass;}
 
     public IElement getHiddenOfHelp() {

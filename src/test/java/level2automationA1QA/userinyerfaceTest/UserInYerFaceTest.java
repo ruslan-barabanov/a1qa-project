@@ -1,15 +1,17 @@
 package level2automationA1QA.userinyerfaceTest;
 
 import aquality.selenium.browser.AqualityServices;
+import aquality.selenium.browser.Browser;
 import level2automationA1QA.BaseTest;
 import level2automationA1QA.userinyerfaceTest.pages.FirstPageUserInYerFace;
 import level2automationA1QA.userinyerfaceTest.pages.ThreePageUserInYerFace;
 import level2automationA1QA.userinyerfaceTest.pages.TwoPageUserInYerFace;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 public class UserInYerFaceTest extends BaseTest {
 
@@ -17,7 +19,9 @@ public class UserInYerFaceTest extends BaseTest {
     TwoPageUserInYerFace twoPageUserInYerFace = new TwoPageUserInYerFace(By.xpath("//div//input[@placeholder='Choose Password']"), "password");
     ThreePageUserInYerFace threePageUserInYerFace = new ThreePageUserInYerFace(By.xpath("//body/div[@id='app']/div[1]/div[2]/div[4]/div[1]/div[1]/div[1]/div[3]/div[1]/div[21]/div[1]/span[1]/label[1]/span[1]/span[1]"), "unselect all");
     String randomString = new GenerateRandomString().randomString();
-    DropDown dropDown = new DropDown(AqualityServices.getBrowser().getDriver());
+    Browser browser = AqualityServices.getBrowser();
+    DropDown dropDown = new DropDown(browser.getDriver());
+    AutoIdTest autoIdTest = new AutoIdTest();
 
     @Test
     public void getTitleOfPage() {
@@ -25,7 +29,7 @@ public class UserInYerFaceTest extends BaseTest {
     }
 
     @Test
-    public void get() {
+    public void get() throws IOException, InterruptedException {
         firstPageUserInYerFace.getGamePage();
         Assert.assertEquals(getBrowser().getCurrentUrl(), "https://userinyerface.com/game.html");
         getBrowser().waitForPageToLoad();
@@ -41,11 +45,11 @@ public class UserInYerFaceTest extends BaseTest {
         Assert.assertEquals(twoPageUserInYerFace.getNumberOfCard(), "2 / 4");
         threePageUserInYerFace.clickCheck().click();
         threePageUserInYerFace.get3Interests();
-        threePageUserInYerFace.getPhotoUpload();
-//        ChromeOptions options = new ChromeOptions();
-//        options.addExtensions(Paths.get("C:\\Users\\Ruslan\\Pictures\\cat_avatar.jpg").toFile());
-//        ChromeDriver driver = new ChromeDriver(options);
-//        threePageUserInYerFace.getPhotoUpload().getAttribute("value");
+        threePageUserInYerFace.getPhotoUpload().click();
+        autoIdTest.addMyPhoto();
+        twoPageUserInYerFace.getNextButton3().clickAndWait();
+
+        Assert.assertEquals(twoPageUserInYerFace.getNumberOfCard(), "3 / 4");
     }
 
     @Test
@@ -59,7 +63,7 @@ public class UserInYerFaceTest extends BaseTest {
     public void clickAcceptCookie() {
         firstPageUserInYerFace.getGamePage();
         twoPageUserInYerFace.getCookieButton().clickAndWait();
-        WebDriverWait wait = new WebDriverWait(AqualityServices.getBrowser().getDriver(),10);
+        WebDriverWait wait = new WebDriverWait(browser.getDriver(), 10);
         int cookie = twoPageUserInYerFace.getCookieClass().size();
         Assert.assertEquals(cookie, 0);
     }
@@ -70,5 +74,4 @@ public class UserInYerFaceTest extends BaseTest {
         String startTimer = twoPageUserInYerFace.getTimer().getText();
         Assert.assertEquals(startTimer, "00:00:00");
     }
-
 }

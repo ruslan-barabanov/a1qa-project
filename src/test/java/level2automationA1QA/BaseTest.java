@@ -27,8 +27,8 @@ public abstract class BaseTest {
     @BeforeMethod
     protected void beforeMethod() {
         AqualityServices.getBrowser().goTo(DEFAULT_URL);
-        AqualityServices.getBrowser().getDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         getBrowser().setWindowSize(defaultSize.width, defaultSize.height);
+        AqualityServices.getBrowser().getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @AfterMethod
