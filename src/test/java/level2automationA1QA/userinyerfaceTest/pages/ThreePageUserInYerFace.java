@@ -1,7 +1,6 @@
 package level2automationA1QA.userinyerfaceTest.pages;
 
 import aquality.selenium.browser.AqualityServices;
-import aquality.selenium.elements.interfaces.IButton;
 import aquality.selenium.elements.interfaces.ICheckBox;
 import aquality.selenium.elements.interfaces.ILink;
 import aquality.selenium.forms.Form;
@@ -23,18 +22,15 @@ public class ThreePageUserInYerFace extends Form {
     }
 
     private final ICheckBox unselectAll = getElementFactory().getCheckBox(By.xpath("//body/div[@id='app']/div[1]/div[2]/div[4]/div[1]/div[1]/div[1]/div[3]/div[1]/div[21]/div[1]/span[1]/label[1]/span[1]/span[1]"), "unselect all");
-    private final ILink photoUpload = getElementFactory().getLink(By.xpath("//a[@class='avatar-and-interests__upload-button']"),"photo upload");
-    private final IButton nextButton3 = getElementFactory().getButton(By.xpath("//button[@class='button button--stroked button--white button--fluid']"), "next");
-    public IButton getNextButton() {
-        return nextButton3;}
+    private final ILink photoUpload = getElementFactory().getLink(By.xpath("//a[@class='avatar-and-interests__upload-button']"), "photo upload");
+
     public ICheckBox clickCheck() {
         return unselectAll;
     }
 
-    public ILink getPhotoUpload(){
+    public ILink getPhotoUpload() {
         return photoUpload;
     }
-
 
     public void get3Interests() {
         List<WebElement> allInterests = AqualityServices.getBrowser().getDriver().findElements(By.xpath("//div[@class='avatar-and-interests__interests-list__item']"));
