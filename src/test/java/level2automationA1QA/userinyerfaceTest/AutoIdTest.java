@@ -1,5 +1,6 @@
 package level2automationA1QA.userinyerfaceTest;
 
+
 import java.io.IOException;
 
 public class AutoIdTest {

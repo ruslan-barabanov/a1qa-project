@@ -33,7 +33,6 @@ public class ThreePageUserInYerFace extends Form {
     }
 
     public void get3Interests() {
-        List<WebElement> allInterests = AqualityServices.getBrowser().getDriver().findElements(By.xpath("//div[@class='avatar-and-interests__interests-list__item']"));
         Random random = new Random();
         for (int i = 0; i < 3; i++) {
             AqualityServices.getBrowser().getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div[4]/div/div[1]/div/div[3]/div/div[" + random.nextInt(18) + "]/div/span[1]/label/span")).click();

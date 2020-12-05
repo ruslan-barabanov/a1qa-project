@@ -22,5 +22,4 @@ public class DropDown {
         open();
         driver.findElement(By.xpath(String.format(optionLocatorByText,text))).click();
     }
-
 }

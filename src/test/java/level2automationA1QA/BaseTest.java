@@ -38,10 +38,6 @@ public abstract class BaseTest {
         }
     }
 
-    protected void navigate(TheInternetPage page) {
-        getBrowser().goTo(page.getAddress());
-    }
-
     protected Browser getBrowser() {
         return AqualityServices.getBrowser();
     }
