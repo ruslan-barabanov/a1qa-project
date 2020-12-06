@@ -7,6 +7,7 @@ import level2automationA1QA.userinyerfaceTest.pages.FirstPageUserInYerFace;
 import level2automationA1QA.userinyerfaceTest.pages.ThreePageUserInYerFace;
 import level2automationA1QA.userinyerfaceTest.pages.TwoPageUserInYerFace;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -56,7 +57,6 @@ public class UserInYerFaceTest extends BaseTest {
         threePageUserInYerFace.getPhotoUpload().click();
         autoIdTest.addMyPhoto();
         twoPageUserInYerFace.getNextButton3().clickAndWait();
-
         Assert.assertEquals(twoPageUserInYerFace.getNumberOfCard(), "3 / 4");
     }
 
@@ -71,7 +71,6 @@ public class UserInYerFaceTest extends BaseTest {
     public void clickAcceptCookie() {
         firstPageUserInYerFace.getGamePage();
         twoPageUserInYerFace.getCookieButton().clickAndWait();
-        WebDriverWait wait = new WebDriverWait(browser.getDriver(), 10);
         int cookie = twoPageUserInYerFace.getCookieClass().size();
         Assert.assertEquals(cookie, 0);
     }

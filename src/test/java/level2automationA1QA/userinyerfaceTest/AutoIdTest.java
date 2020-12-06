@@ -8,5 +8,6 @@ public class AutoIdTest {
     public void addMyPhoto() throws IOException, InterruptedException {
         Runtime.getRuntime().exec("C://Users//Ruslan//Pictures//FileUploadScript.exe");
         Thread.sleep(7000);
+
     }
 }
