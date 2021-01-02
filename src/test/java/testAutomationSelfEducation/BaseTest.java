@@ -20,7 +20,7 @@ public abstract class BaseTest {
     protected final Dimension defaultSize = new Dimension(2000, 768);
     protected final IElementFactory elementFactory;
     protected final FluentApi fluentApi=new FluentApi();
-    protected BaseTest() {
+    protected BaseTest() throws IOException {
         elementFactory = AqualityServices.getElementFactory();
     }
     

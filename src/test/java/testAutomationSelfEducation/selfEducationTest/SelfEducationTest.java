@@ -2,8 +2,16 @@ package testAutomationSelfEducation.selfEducationTest;
 
 
 import level2automationA1QA.userinyerfaceTest.GenerateRandomString;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -12,11 +20,18 @@ import testAutomationSelfEducation.pages.ProjectsPage;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SelfEducationTest extends BaseTest {
     ProjectsPage projectsPage = new ProjectsPage(By.xpath("//button[@class='btn btn-xs btn-primary pull-right']"), "button add");
     GenerateRandomString randomName = new GenerateRandomString();
+    String nameProject = randomName.randomString();
+    String myNameProject = "My Project " + nameProject;
+
+    protected SelfEducationTest() throws IOException {
+    }
 
     @Test
     public void newPostRequestGetToken() throws IOException {
@@ -42,14 +57,12 @@ public class SelfEducationTest extends BaseTest {
 
     @Test
     public void addNewProject() throws IOException, URISyntaxException {
-        String nameProject = randomName.randomString();
+
         projectsPage.getAddButton().click();
         getBrowser().getDriver().switchTo().defaultContent();
-        String myNameProject = "My Project " + nameProject;
+
         getBrowser().getDriver().findElement(By.xpath("//input[@id='projectName']")).sendKeys(myNameProject + Keys.ENTER);
         WebDriverWait wait = new WebDriverWait(getBrowser().getDriver(), 10);
-        WebElement dynamicElement = wait
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='alert alert-success']")));
         getBrowser().getDriver().navigate().refresh();
         getBrowser().getDriver().switchTo().defaultContent();
         String actualName = getBrowser().getDriver().findElement(By.xpath("//a[text()='" + myNameProject + "']")).getText();
@@ -58,21 +71,38 @@ public class SelfEducationTest extends BaseTest {
 
         getBrowser().getDriver().findElement(By.xpath("//a[text()='" + myNameProject + "']")).click();
 
-        String screenshot = ((TakesScreenshot) getBrowser().getDriver()).
-                getScreenshotAs(OutputType.BASE64);
-
         String id = fluentApi.sendPostTestId(actualName);
         System.out.println(id);
-        fluentApi.sendScreen(id,screenshot);
-        String actualResult = getBrowser().getDriver().findElement(By.xpath("//a[@href='testInfo?testId="+id+"']")).getText();
-        Assert.assertEquals(actualResult,"testForMe");
+        getBrowser().getDriver().findElement(By.xpath("//a[text()='testForMe']")).click();
+        String screenshotBase64 = ((TakesScreenshot) getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
+        System.out.println(screenshotBase64);
 
+        final CloseableHttpClient httpclient = HttpClients.createDefault();
+
+        final HttpPost httpPost = new HttpPost("http://localhost:8080/api/test/put/attachment");
+        final List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("testId", "363"));
+        params.add(new BasicNameValuePair("content", screenshotBase64));
+        params.add(new BasicNameValuePair("contentType", "image/png"));
+        httpPost.setEntity(new UrlEncodedFormEntity(params));
+        try (
+                CloseableHttpResponse response2 = httpclient.execute(httpPost)
+        ) {
+            final HttpEntity entity2 = response2.getEntity();
+            System.out.println(EntityUtils.toString(entity2));
+        }
+        httpclient.close();
     }
 
     @Test
     public void addTestInMyProject() throws IOException, URISyntaxException {
-//        String id = fluentApi.sendPostTestId();
-//        System.out.println(id);
-
+        getBrowser().getDriver().findElement(By.xpath("//a[text()='My Project loRFf']")).click();
+        getBrowser().getDriver().findElement(By.xpath("//a[text()='testForMe']")).click();
+        String actualProjectName = getBrowser().getDriver().findElement(By.xpath("//p[text()='My Project loRFf']")).getText();
+        Assert.assertEquals(actualProjectName, "My Project loRFf");
+        String actualTestName = getBrowser().getDriver().findElement(By.xpath("//p[text()='testForMe']")).getText();
+        Assert.assertEquals(actualTestName, "testForMe");
+        String actualEnvironmentName = getBrowser().getDriver().findElement(By.xpath("//p[text()='localhost']")).getText();
+        Assert.assertEquals(actualEnvironmentName, "localhost");
     }
 }
