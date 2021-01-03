@@ -28,20 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScreenShot {
-    WebDriver driver;
 
-    @Test
-    public void testScreen() throws IOException, URISyntaxException {
-
-        File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String screenshotBase64 = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
-        System.out.println(screenshotBase64);
+    public void makeAndSendScreen(String id,String screenshotBase64) throws IOException {
 
         final CloseableHttpClient httpclient = HttpClients.createDefault();
 
         final HttpPost httpPost = new HttpPost("http://localhost:8080/api/test/put/attachment");
         final List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("testId", "363"));
+        params.add(new BasicNameValuePair("testId", id));
         params.add(new BasicNameValuePair("content", screenshotBase64));
         params.add(new BasicNameValuePair("contentType", "image/png"));
         httpPost.setEntity(new UrlEncodedFormEntity(params));

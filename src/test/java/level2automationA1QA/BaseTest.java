@@ -6,11 +6,8 @@ import aquality.selenium.elements.interfaces.IElementFactory;
 import org.openqa.selenium.Dimension;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import theinternet.TheInternetPage;
-
 import java.util.concurrent.TimeUnit;
 
-import static automationpractice.Constants.URL_AUTOMATIONPRACTICE;
 
 public abstract class BaseTest {
     protected static final String DEFAULT_URL = "https://userinyerface.com/game.html%20target=";

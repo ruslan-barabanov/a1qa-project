@@ -3,7 +3,6 @@ package testAutomationSelfEducation;
 import aquality.selenium.browser.AqualityServices;
 import aquality.selenium.browser.Browser;
 import aquality.selenium.elements.interfaces.IElementFactory;
-import level2automationA1QA.userinyerfaceTest.GenerateRandomString;
 import org.openqa.selenium.Dimension;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -15,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class BaseTest {
     protected static final String DEFAULT_URL = "http://login:password@localhost:8080/web";
-
 
     protected final Dimension defaultSize = new Dimension(2000, 768);
     protected final IElementFactory elementFactory;

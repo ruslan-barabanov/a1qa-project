@@ -5,7 +5,7 @@ import java.util.Random;
 public class GenerateRandomString {
 
     public String randomString() {
-        int length = 16;
+        int length = 5;
         Random r = new Random();
         String s = r.ints(48, 122)
                 .filter(i -> (i < 57 || i > 65) && (i < 90 || i > 97))
